@@ -24,7 +24,10 @@ namespace Fresenius.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            DateTime d = new DateTime();
+            d = DateTime.Now;
+           
+            ViewData["Message"] = "You can contact me..."+ d.ToShortDateString();
 
             return View();
         }
