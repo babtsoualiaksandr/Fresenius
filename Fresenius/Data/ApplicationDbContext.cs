@@ -14,6 +14,9 @@ namespace Fresenius.Data
             : base(options)
         {
         }
+       public  DbSet<Hospital> Hospitals { get; set; }
+      
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
