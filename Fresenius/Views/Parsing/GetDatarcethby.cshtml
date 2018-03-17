@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Fresenius.Data.IdentityCard>
+
+@{
+    ViewData["Title"] = "GetDatarcethby";
+}
+
+<h2>GetDatarcethby</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateOfRegistration)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Expiration)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Applicant)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Purpose)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfRegistration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expiration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Applicant)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Purpose)
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>

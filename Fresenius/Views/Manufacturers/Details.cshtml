@@ -1,0 +1,48 @@
+﻿@model Fresenius.Data.Manufacturer
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Manufacturer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NameFull)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameFull)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NameShort)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameShort)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdressOfDeparture)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdressOfDeparture)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Logo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Logo)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

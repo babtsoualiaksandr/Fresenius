@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Fresenius.Data;
 using Fresenius.Models;
 using Fresenius.Services;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Fresenius
 {
@@ -35,6 +37,10 @@ namespace Fresenius
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddSingleton<IFileProvider>(
+               new PhysicalFileProvider(
+                   Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
             services.AddMvc();
         }

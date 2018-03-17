@@ -17,8 +17,56 @@ namespace Fresenius.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Fresenius.Data.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Nam");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("Fresenius.Data.Equipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Image");
+
+                    b.Property<string>("Name");
+
+                    b.Property<DateTime>("Ps");
+
+                    b.Property<string>("RegNumber");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Equipments");
+                });
+
+            modelBuilder.Entity("Fresenius.Data.FileImg", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("Img");
+
+                    b.Property<string>("Scr");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileImgs");
+                });
 
             modelBuilder.Entity("Fresenius.Data.Hospital", b =>
                 {
@@ -34,6 +82,78 @@ namespace Fresenius.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hospitals");
+                });
+
+            modelBuilder.Entity("Fresenius.Data.IdentityCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Applicant");
+
+                    b.Property<DateTime>("DateOfRegistration");
+
+                    b.Property<DateTime>("Expiration");
+
+                    b.Property<string>("Number");
+
+                    b.Property<string>("Purpose");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityCard");
+                });
+
+            modelBuilder.Entity("Fresenius.Data.Manufacturer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AdressOfDeparture");
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Logo");
+
+                    b.Property<string>("NameFull");
+
+                    b.Property<string>("NameShort");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Manufacturers");
+                });
+
+            modelBuilder.Entity("Fresenius.Data.Sparepart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CountryId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("EquipmentId");
+
+                    b.Property<string>("Image");
+
+                    b.Property<int?>("ManufacturerId");
+
+                    b.Property<string>("NameEn");
+
+                    b.Property<string>("NameRus");
+
+                    b.Property<string>("Number");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("ManufacturerId");
+
+                    b.ToTable("Spareparts");
                 });
 
             modelBuilder.Entity("Fresenius.Models.ApplicationUser", b =>
@@ -193,6 +313,21 @@ namespace Fresenius.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Fresenius.Data.Sparepart", b =>
+                {
+                    b.HasOne("Fresenius.Data.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
+
+                    b.HasOne("Fresenius.Data.Equipment", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId");
+
+                    b.HasOne("Fresenius.Data.Manufacturer", "Manufacturer")
+                        .WithMany()
+                        .HasForeignKey("ManufacturerId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

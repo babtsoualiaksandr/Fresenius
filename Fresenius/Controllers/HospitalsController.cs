@@ -9,6 +9,8 @@ using Fresenius.Data;
 using Fresenius.Models;
 using Newtonsoft.Json;
 
+
+
 namespace Fresenius.Controllers
 {
     public class HospitalsController : Controller
@@ -176,5 +178,9 @@ namespace Fresenius.Controllers
         {
             return _context.Hospitals.Any(e => e.Id == id);
         }
+
+
+       
+
     }
 }
