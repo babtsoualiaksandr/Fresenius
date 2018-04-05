@@ -19,7 +19,9 @@ namespace Fresenius.Data
         public string Image { get; set; }
         [Display(Name = "Номер регистрационного удостоверения")]
         public string RegNumber { get; set; }
-        [Display(Name = "Примечание")]
-        public DateTime Ps { get; set; }         
+        [Display(Name = "Дата ")]
+
+        public string Ps { get; set; }
+
     }
 }

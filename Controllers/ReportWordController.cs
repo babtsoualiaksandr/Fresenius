@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Office.Interop;
-using Microsoft.Office.Interop.Word;
+
 
 namespace Fresenius.Controllers
 {
@@ -14,13 +13,13 @@ namespace Fresenius.Controllers
         // GET: ReportWord
         public ActionResult GetReportWord()
         {
-            Application appWord = new Application();
-            Document doc = appWord.Documents.Add(Visible: true);
-            Range range = doc.Range();
-            range.Text = "Heloo World";
-            //range.Bold = 20;
-            Table table = doc.Tables.Add(range, 5,5);
-            table.Borders.Enable = 1;
+            //Application appWord = new Application();
+            //Document doc = appWord.Documents.Add(Visible: true);
+            //Range range = doc.Range();
+            //range.Text = "Heloo World";
+            ////range.Bold = 20;
+            //Table table = doc.Tables.Add(range, 5,5);
+            //table.Borders.Enable = 1;
 
 
             //foreach (Row row in table.Rows)
@@ -46,19 +45,19 @@ namespace Fresenius.Controllers
 
             //}
 
-            doc.Save();
-            appWord.Documents.Open(@"D:\Doc3.docx");
+            //doc.Save();
+            //appWord.Documents.Open(@"D:\Doc3.docx");
             
              
-            try
-            {
-                doc.Close();
-                appWord.Quit();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            //try
+            //{
+            //    doc.Close();
+            //    appWord.Quit();
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //}
             
                 return View();
         }

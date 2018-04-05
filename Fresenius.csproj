@@ -9,10 +9,10 @@
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.9.9.2" />
+    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" PrivateAssets="All" />
-    <PackageReference Include="Word2016.Interop" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +24,16 @@
   <ItemGroup>
     <Folder Include="Models\YandexMap\" />
     <Folder Include="wwwroot\Doc\" />
+    <Folder Include="wwwroot\lib\JsPdf\" />
+    <Folder Include="wwwroot\Fonts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Fonts\arialuni.ttf" />
+    <None Include="wwwroot\Fonts\SimSun.ttf" />
+    <None Include="wwwroot\Fonts\tahoma.ttf" />
+    <None Include="wwwroot\Fonts\tahomabd.ttf" />
+    <None Include="wwwroot\Fonts\THSarabunNew.ttf" />
   </ItemGroup>
 
 </Project>

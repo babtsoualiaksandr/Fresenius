@@ -9,75 +9,82 @@
 <p>
     <a asp-action="Create" class=" btn btn-primary">Create New</a>
 </p>
-<table class="table display" id="IndexTable">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NameEn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NameRus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Equipment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manufacturer)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+
+
+    <table class="table display" id="IndexTable">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Number)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NameEn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NameRus)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        <img src="@item.Image" asp-append-version="true" class="img-thumbnail" alt="@item.Image" />
-                    </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Country.Nam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Equipment.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Manufacturer.NameFull)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NameEn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NameRus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Image)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Country)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Equipment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Manufacturer)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
-<p>
-    <a asp-action="Create" class=" btn btn-primary ">Create New</a>
-</p>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.CheckBox("mark",false)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameEn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameRus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <img src="@item.Image" asp-append-version="true" class="img-thumbnail" alt="@item.Image" />
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country.Nam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Equipment.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Manufacturer.NameFull)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p>
+        <a asp-action="Create" class=" btn btn-primary ">Create New</a>
+    </p>
+

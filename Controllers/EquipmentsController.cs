@@ -6,17 +6,76 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fresenius.Data;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using AngleSharp;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fresenius.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class EquipmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _appEnvironment;
 
-        public EquipmentsController(ApplicationDbContext context)
+        public EquipmentsController(ApplicationDbContext context, IHostingEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
+
+        static public async Task<IdentityCard> GetDatarcethby(string InIm)
+        {
+            string str = InIm.Substring(3);
+            // Setup the configuration to support document loading
+            var config = Configuration.Default.WithDefaultLoader();
+            // Load the names of all The Big Bang Theory episodes from Wikipedia
+            var address = "http://rceth.by/Refbank/reestr_medicinskoy_tehniki/details/" + str + "?allproducts=True";
+            // Asynchronously get the document in a new context using the configuration
+            var document = await BrowsingContext.New(config).OpenAsync(address);
+            // This CSS selector gets the desired content
+            var cellSelector = ".results table td";
+            // Perform the query to get all cells with the content
+            var cells = document.QuerySelectorAll(cellSelector);
+            // We are only interested in the text - select it with LINQ
+            var titles = cells.Select(m => m.TextContent);
+            string[] title = new string[titles.Count()];
+            int i = 0;
+            foreach (var item in titles)
+            {
+                title[i] = item;
+                i++;
+            }
+            IdentityCard identityCard;
+            if (i > 4)
+            {
+                identityCard = new IdentityCard
+                {
+                    Number = title[0],
+                    DateOfRegistration = DateTime.Parse(title[1]),
+                    Expiration = DateTime.Parse(title[2]),
+                    Applicant = title[3],
+                    Purpose = title[4]
+                };
+            }
+            else
+            {
+                identityCard = new IdentityCard
+                {
+                    Number = "-------",
+                    DateOfRegistration = DateTime.Parse("01.01.1900"),
+                    Expiration = DateTime.Parse("01.01.1900"),
+                    Applicant = "------",
+                    Purpose = "не найдено"
+                };
+            };
+            return identityCard;
+        }
+
+
+
 
         // GET: Equipments
         public async Task<IActionResult> Index()
@@ -39,6 +98,8 @@ namespace Fresenius.Controllers
                 return NotFound();
             }
 
+            ViewBag.DataSite = await GetDatarcethby(equipment.RegNumber);
+
             return View(equipment);
         }
 
@@ -53,10 +114,33 @@ namespace Fresenius.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Name,Description,Image,RegNumber,Ps")] Equipment equipment)
+        public async Task<IActionResult> Create([Bind("Id,Code,Name,Description,Image,RegNumber,Ps")] Equipment equipment, IFormFile uploadedFile, string btn)
         {
+            if (btn == "Info")
+            {
+                IdentityCard identityCard = await GetDatarcethby(equipment.RegNumber);
+                equipment.Ps = identityCard.Expiration.ToShortDateString();
+                return View("Create", equipment);
+            }
             if (ModelState.IsValid)
             {
+                // Загрузить на сервер
+                if (uploadedFile != null)
+                {
+                    // путь к папке Files
+                    string path = "/images/" + uploadedFile.FileName;
+                    // сохраняем файл в папку Files в каталоге wwwroot    D:\Fresenius\Fresenius\Fresenius\wwwroot\images\5085641.png
+
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+                    //сохранить в базе сохраненный путь
+                    equipment.Image = "~/images/" + uploadedFile.FileName;
+
+                }
+
+
                 _context.Add(equipment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -85,8 +169,19 @@ namespace Fresenius.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,Description,Image,RegNumber,Ps")] Equipment equipment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,Description,Image,RegNumber,Ps")] Equipment equipment, IFormFile uploadedFile, string btn)
         {
+
+            if (btn == "Info")
+            {
+
+                IdentityCard identityCard = await GetDatarcethby(equipment.RegNumber);
+                equipment.Ps = identityCard.Expiration.ToShortDateString();
+                return View("Edit", equipment);
+
+            }
+
+
             if (id != equipment.Id)
             {
                 return NotFound();
@@ -96,6 +191,22 @@ namespace Fresenius.Controllers
             {
                 try
                 {
+                    // Загрузить на сервер
+                    if (uploadedFile != null)
+                    {
+                        // путь к папке Files
+                        string path = "/images/" + uploadedFile.FileName;
+                        // сохраняем файл в папку Files в каталоге wwwroot    
+
+                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            await uploadedFile.CopyToAsync(fileStream);
+                        }
+                        equipment.Image = "~/images/" + uploadedFile.FileName;
+
+                    }
+
+
                     _context.Update(equipment);
                     await _context.SaveChangesAsync();
                 }
@@ -113,6 +224,8 @@ namespace Fresenius.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(equipment);
+
+
         }
 
         // GET: Equipments/Delete/5

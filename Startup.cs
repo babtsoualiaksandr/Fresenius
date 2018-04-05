@@ -14,6 +14,7 @@ using Fresenius.Services;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 
+
 namespace Fresenius
 {
     public class Startup
@@ -42,22 +43,24 @@ namespace Fresenius
                new PhysicalFileProvider(
                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
+            
+
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //}
 
             app.UseStaticFiles();
 
@@ -69,6 +72,8 @@ namespace Fresenius
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //RotativaConfiguration.Setup(env);
         }
     }
 }

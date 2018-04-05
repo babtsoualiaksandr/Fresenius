@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Fresenius.Models;
 using Fresenius.Data;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Fresenius.Data
 {
@@ -20,20 +21,26 @@ namespace Fresenius.Data
         public DbSet<Sparepart> Spareparts { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceSparepart> InvoiceSpareparts { get; set; }
 
- 
+
+
 
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
+
+
+
+            builder.Entity<Invoice>().ToTable("Invoice");
+            builder.Entity<InvoiceSparepart>().ToTable("InvoiceSparepart");
+            builder.Entity<Sparepart>().ToTable("Sparepart");
+
         }
-
-
 
         public DbSet<Fresenius.Data.IdentityCard> IdentityCard { get; set; }
     }

@@ -1,0 +1,10 @@
+frese.database.windows.net;
+Initial Catalog=frese;
+Integrated Security=False;
+User ID=frese;
+Password=********;
+Connect Timeout=60;
+Encrypt=True;
+TrustServerCertificate=False;
+ApplicationIntent=ReadWrite;
+ultiSubnetFailover=False

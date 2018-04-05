@@ -1,0 +1,132 @@
+﻿@model Fresenius.Data.Invoice
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Invoice</h4>
+<hr />
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-md-4">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Num" class="control-label"></label>
+                <input asp-for="Num" class="form-control" />
+                <span asp-validation-for="Num" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sender" class="control-label"></label>
+                <input asp-for="Sender" class="form-control" />
+                <span asp-validation-for="Sender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipient" class="control-label"></label>
+                <input asp-for="Recipient" class="form-control" />
+                <span asp-validation-for="Recipient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+
+
+
+    <table class="table display" id="IndexTableInvoice">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    Номер
+                </th>
+                <th>
+                    Наименование ENG
+                </th>
+                <th>
+                    Наименование RUS
+                </th>
+                <th>
+                    Описание
+                </th>
+                <th>
+                    Фото
+                </th>
+                <th>
+                    Страна
+                </th>
+                <th>
+                    Оборудование
+                </th>
+                <th>
+                    Изготовитель
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Spareparts)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="markSparepartsInInvoice" value="@item.Id" />
+                    </td>
+                    <td>
+                        @item.Number
+                    </td>
+                    <td>
+                        @item.NameEn
+                    </td>
+                    <td>
+                        @item.NameRus
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <img src="@item.Image" asp-append-version="true" class="img-thumbnail" alt="@item.Image" />
+                        </a>
+                    </td>
+                    <td>
+                        @item.Country.Nam
+                    </td>
+                    <td>
+                        @item.Equipment.Name
+                    </td>
+                    <td>
+                        @item.Manufacturer.NameFull
+                    </td>
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

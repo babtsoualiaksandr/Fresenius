@@ -19,6 +19,7 @@ namespace Fresenius.Data
         [Display(Name = "Рег. номер товара")]
         public string RegItem { get; set; }
         [Display(Name = "Тип")]
-        public string  Type { get; set; }  
+        public string  Type { get; set; }
+
     }
 }

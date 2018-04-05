@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Fresenius.Data.Sparepart>
+<p>Данные для накладной</p>
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameEn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameRus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <img src="@item.Image" asp-append-version="true" class="img-thumbnail" alt="@item.Image" />
+                    </a>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country.Nam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Equipment.Name)
+                    @Html.DisplayFor(modelItem => item.Equipment.Code)
+                    @Html.DisplayFor(modelItem => item.Equipment.Description)
+                    @Html.DisplayFor(modelItem => item.Equipment.RegNumber)
+                    @Html.DisplayFor(modelItem => item.Equipment.Ps)
+                    <img src="@item.Equipment.Image" asp-append-version="true" class="img-thumbnail" alt="@item.Equipment.Image" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manufacturer.NameFull)
+                    @Html.DisplayFor(modelItem => item.Manufacturer.NameShort)
+                    @Html.DisplayFor(modelItem => item.Manufacturer.Code)
+                    @Html.DisplayFor(modelItem => item.Manufacturer.AdressOfDeparture)
+                    <img src="@item.Manufacturer.Logo" asp-append-version="true" class="img-thumbnail" alt="@item.Manufacturer.Logo" />
+
+
+                </td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

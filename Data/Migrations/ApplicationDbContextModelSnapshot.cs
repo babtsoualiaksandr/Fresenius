@@ -45,27 +45,13 @@ namespace Fresenius.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<DateTime>("Ps");
+                    b.Property<string>("Ps");
 
                     b.Property<string>("RegNumber");
 
                     b.HasKey("Id");
 
                     b.ToTable("Equipments");
-                });
-
-            modelBuilder.Entity("Fresenius.Data.FileImg", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<byte[]>("Img");
-
-                    b.Property<string>("Scr");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FileImgs");
                 });
 
             modelBuilder.Entity("Fresenius.Data.Hospital", b =>
@@ -104,6 +90,42 @@ namespace Fresenius.Data.Migrations
                     b.ToTable("IdentityCard");
                 });
 
+            modelBuilder.Entity("Fresenius.Data.Invoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Date");
+
+                    b.Property<string>("Num");
+
+                    b.Property<string>("Recipient");
+
+                    b.Property<string>("Sender");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invoice");
+                });
+
+            modelBuilder.Entity("Fresenius.Data.InvoiceSparepart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("InvoiceId");
+
+                    b.Property<int>("SparepartId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("SparepartId");
+
+                    b.ToTable("InvoiceSparepart");
+                });
+
             modelBuilder.Entity("Fresenius.Data.Manufacturer", b =>
                 {
                     b.Property<int>("Id")
@@ -139,6 +161,8 @@ namespace Fresenius.Data.Migrations
 
                     b.Property<int?>("ManufacturerId");
 
+                    b.Property<bool>("Mark");
+
                     b.Property<string>("NameEn");
 
                     b.Property<string>("NameRus");
@@ -153,7 +177,7 @@ namespace Fresenius.Data.Migrations
 
                     b.HasIndex("ManufacturerId");
 
-                    b.ToTable("Spareparts");
+                    b.ToTable("Sparepart");
                 });
 
             modelBuilder.Entity("Fresenius.Models.ApplicationUser", b =>
@@ -313,6 +337,19 @@ namespace Fresenius.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Fresenius.Data.InvoiceSparepart", b =>
+                {
+                    b.HasOne("Fresenius.Data.Invoice", "Invoice")
+                        .WithMany("InvoiceSpareparts")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Fresenius.Data.Sparepart", "Sparepart")
+                        .WithMany("InvoiceSpareparts")
+                        .HasForeignKey("SparepartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Fresenius.Data.Sparepart", b =>

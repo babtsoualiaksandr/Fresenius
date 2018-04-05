@@ -34,6 +34,9 @@
         <dd>
             @Html.DisplayFor(model => model.Image)
         </dd>
+        <dd>
+            <img src="@Model.Image" asp-append-version="true" class="img-fluid" />
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.RegNumber)
         </dt>
@@ -46,8 +49,16 @@
         <dd>
             @Html.DisplayFor(model => model.Ps)
         </dd>
+        <dd>
+            Данные с сайта http://rceth.by/Refbank/reestr_medicinskoy_tehniki/details/ ...<br />
+            @ViewBag.DataSite.Number
+            @ViewBag.DataSite.Expiration
+            @ViewBag.DataSite.DateOfRegistration
+
+        </dd>
     </dl>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

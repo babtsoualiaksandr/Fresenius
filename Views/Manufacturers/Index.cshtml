@@ -46,7 +46,9 @@
                 @Html.DisplayFor(modelItem => item.AdressOfDeparture)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Logo)
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    <img src="@item.Logo" asp-append-version="true" class="img-thumbnail" alt="@item.Logo" />
+                </a>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

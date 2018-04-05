@@ -10,9 +10,12 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Fresenius.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Fresenius.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class SparepartsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -87,11 +90,12 @@ namespace Fresenius.Controllers
                     {
                         await uploadedFile.CopyToAsync(fileStream);
                     }
+                    //сохранить в базе сохраненный путь
+                    sparepart.Image = "~/images/" + uploadedFile.FileName;
 
-                }           
+                }
 
-                //сохранить в базе сохраненный путь
-                sparepart.Image = "~/images/" + uploadedFile.FileName;
+
                 _context.Add(sparepart);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,7 +103,7 @@ namespace Fresenius.Controllers
             ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Nam", sparepart.CountryId);
             ViewData["EquipmentId"] = new SelectList(_context.Equipments, "Id", "Name", sparepart.EquipmentId);
             ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "Id", "NameFull", sparepart.ManufacturerId);
-            
+
             return View(sparepart);
         }
 
@@ -149,8 +153,10 @@ namespace Fresenius.Controllers
                         {
                             await uploadedFile.CopyToAsync(fileStream);
                         }
+                        sparepart.Image = "~/images/" + uploadedFile.FileName;
 
                     }
+
 
                     _context.Update(sparepart);
                     await _context.SaveChangesAsync();
@@ -210,7 +216,7 @@ namespace Fresenius.Controllers
         {
             return _context.Spareparts.Any(e => e.Id == id);
         }
-       
+
         [HttpPost]
         public async Task<IActionResult> AddFileImg(IFormFile uploadedFile)
         {
@@ -219,15 +225,91 @@ namespace Fresenius.Controllers
                 // путь к папке Files
                 string path = "/images/" + uploadedFile.FileName;
                 // сохраняем файл в папку Files в каталоге wwwroot    D:\Fresenius\Fresenius\Fresenius\wwwroot\images\5085641.png
-  
+
                 using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
                     await uploadedFile.CopyToAsync(fileStream);
                 }
-      
-            }                  
+
+            }
             return RedirectToAction("Create");
 
         }
+
+        [HttpPost]
+        public IActionResult Invoice(string Numer, string Date, string Sender, string Recipient)
+        {
+
+            Invoice invoice = new Invoice { Num = Numer, Date = Date, Sender = Sender, Recipient = Recipient };
+
+
+            ViewBag.Invoice = invoice;
+
+            var MarkListSpareparts = _context.Spareparts.Where(s=>s.Mark==true).Include(s => s.Country).Include(s => s.Equipment).Include(s => s.Manufacturer).ToList();
+          
+            return View(MarkListSpareparts);
+        }
+
+        public async Task<IActionResult> IndexToMaskForInvoice()
+        {
+            var applicationDbContext = _context.Spareparts.Include(s => s.Country).Include(s => s.Equipment).Include(s => s.Manufacturer);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+       
+      
+        public async Task<IActionResult> EditMask(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }  
+            var sparepart = await _context.Spareparts.SingleOrDefaultAsync(m => m.Id == id);
+            if (sparepart.Mark == true)
+                sparepart.Mark = false;
+            else sparepart.Mark = true;
+
+            _context.Update(sparepart);
+            await _context.SaveChangesAsync(); 
+            return RedirectToAction(nameof(IndexToMaskForInvoice)); 
+        }
+
+        public IActionResult InvoicePartial(string Numer, string Date, string Sender, string Recipient)
+        {
+
+            Invoice invoice = new Invoice { Num = Numer, Date = Date, Sender = Sender, Recipient = Recipient };
+
+
+            ViewBag.Invoice = invoice;
+
+            var MarkListSpareparts = _context.Spareparts.Where(s => s.Mark == true).Include(s => s.Country).Include(s => s.Equipment).Include(s => s.Manufacturer).ToList();
+
+            return PartialView();
+        }
+
+        public async Task<IActionResult> IndexToMaskForInvoicePartial()
+        {
+            var applicationDbContext = _context.Spareparts.Include(s => s.Country).Include(s => s.Equipment).Include(s => s.Manufacturer);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> EditMaskPartial(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var sparepart = await _context.Spareparts.SingleOrDefaultAsync(m => m.Id == id);
+            if (sparepart.Mark == true)
+                sparepart.Mark = false;
+            else sparepart.Mark = true;
+
+            _context.Update(sparepart);
+            await _context.SaveChangesAsync();
+            var MarkListSpareparts = _context.Spareparts.Where(s => s.Mark == true).Include(s => s.Country).Include(s => s.Equipment).Include(s => s.Manufacturer).ToList();
+            
+            return View("_InvoicePartial", MarkListSpareparts);
+        }
     }
 }
+

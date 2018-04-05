@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Fresenius.Data;
 using Fresenius.Models;
 using Newtonsoft.Json;
-
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fresenius.Controllers
+
 {
+    [Authorize(Roles = "admin")]
     public class HospitalsController : Controller
     {
         private readonly ApplicationDbContext _context;

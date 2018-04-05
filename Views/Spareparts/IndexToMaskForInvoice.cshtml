@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Fresenius.Data.Sparepart>
+
+
+    @{
+        ViewData["Title"] = "Index";
+    }
+
+    <h2>Формировать инвойс</h2>
+
+
+    <p>
+        <a asp-action="Create" class=" btn btn-primary">Create New</a>
+    </p>
+
+    @using (Html.BeginForm("Invoice", "Spareparts", FormMethod.Post))
+    {
+
+        <table class="table display" id="IndexTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Number)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NameEn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NameRus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Country)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Equipment)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Manufacturer)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(modelItem => item.Mark)
+                            @{var mess = "Выбрать";
+                                if (item.Mark == true) { mess = " Отменить"; }
+                            }
+                            <a asp-action="EditMask" asp-route-id="@item.Id" class="markFocus"> @mess</a>
+                           
+
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Number)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameEn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameRus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">
+                                <img src="@item.Image" asp-append-version="true" class="img-thumbnail" alt="@item.Image" />
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Country.Nam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Equipment.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Manufacturer.NameFull)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p>
+            <a asp-action="Create" class=" btn btn-primary ">Create New</a>
+        </p>
+
+        @Html.TextBox("Numer", "Номер накладной", new { @class = "form-control" })<br />
+        @Html.TextBox("Date", "Дата", new { @class = "form-control" })<br />
+        @Html.TextBox("Sender", "Фрезениус Медикал Кеа Немецкая Компания Отдел 4 61346 Бад Хомбург Германия", new { @class = "form-control" })<br />
+        @Html.TextBox("Recipient", "ООО «ФрезСервисСистем» Боровлянский сельсовет, д. Боровляны, ул.Березовая роща, д. 106, помещ.116 223053, Минская область, Минский район   Беларусь", new { @class = "form-control" })
+
+        <input type="submit" value="ИНВОЙС" class="btn btn-primary" />
+    }
+
+
+

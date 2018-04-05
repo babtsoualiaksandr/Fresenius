@@ -6,16 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fresenius.Data;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fresenius.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ManufacturersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _appEnvironment;
 
-        public ManufacturersController(ApplicationDbContext context)
+        public ManufacturersController(ApplicationDbContext context, IHostingEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
+
         }
 
         // GET: Manufacturers
@@ -53,10 +61,29 @@ namespace Fresenius.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,NameFull,NameShort,AdressOfDeparture,Logo")] Manufacturer manufacturer)
+        public async Task<IActionResult> Create([Bind("Id,Code,NameFull,NameShort,AdressOfDeparture,Logo")] Manufacturer manufacturer, IFormFile uploadedFile)
         {
             if (ModelState.IsValid)
             {
+                // Загрузить на сервер
+                if (uploadedFile != null)
+                {
+                    // путь к папке Files
+                    string path = "/images/" + uploadedFile.FileName;
+                    // сохраняем файл в папку Files в каталоге wwwroot  
+
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+
+                    //сохранить в базе сохраненный путь
+                    manufacturer.Logo = "~/images/" + uploadedFile.FileName;
+
+                }
+
+
+
                 _context.Add(manufacturer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -85,7 +112,7 @@ namespace Fresenius.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,NameFull,NameShort,AdressOfDeparture,Logo")] Manufacturer manufacturer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,NameFull,NameShort,AdressOfDeparture,Logo")] Manufacturer manufacturer, IFormFile uploadedFile)
         {
             if (id != manufacturer.Id)
             {
@@ -96,6 +123,22 @@ namespace Fresenius.Controllers
             {
                 try
                 {
+                    // Загрузить на сервер
+                    if (uploadedFile != null)
+                    {
+                        // путь к папке Files
+                        string path = "/images/" + uploadedFile.FileName;
+                        // сохраняем файл в папку Files в каталоге wwwroot  
+
+                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            await uploadedFile.CopyToAsync(fileStream);
+                        }
+                        //сохранить в базе сохраненный путь
+                        manufacturer.Logo = "~/images/" + uploadedFile.FileName;
+                    }
+
+
                     _context.Update(manufacturer);
                     await _context.SaveChangesAsync();
                 }
