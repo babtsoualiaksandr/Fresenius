@@ -104,6 +104,15 @@ $(document).ready(function () {
     });
 });
 
+$('.numMarkSparepart').change(function () {    
+    var id = $(this).closest('input').attr('id'); // table row ID  
+    $('.markSparepartsInInvoice#' + id).attr('checked', true);
+    var valNumSparePart = $(this).val();
+    $('.markSparepartsInInvoice#' + id).val(function () { return id + '|' + valNumSparePart });
+   }
+)
+
+
 
 
 

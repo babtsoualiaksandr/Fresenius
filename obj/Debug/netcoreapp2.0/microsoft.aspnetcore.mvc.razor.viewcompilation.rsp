@@ -25,6 +25,7 @@ D:\Fresenius\Fresenius
 --file=D:\Fresenius\Fresenius\Views\Equipments\Details.cshtml
 --file=D:\Fresenius\Fresenius\Views\Equipments\Edit.cshtml
 --file=D:\Fresenius\Fresenius\Views\Equipments\Index.cshtml
+--file=D:\Fresenius\Fresenius\Views\Equipments\IndexAndReestr.cshtml
 --file=D:\Fresenius\Fresenius\Views\Home\About.cshtml
 --file=D:\Fresenius\Fresenius\Views\Home\Contact.cshtml
 --file=D:\Fresenius\Fresenius\Views\Home\Index.cshtml
@@ -33,6 +34,12 @@ D:\Fresenius\Fresenius
 --file=D:\Fresenius\Fresenius\Views\Hospitals\Details.cshtml
 --file=D:\Fresenius\Fresenius\Views\Hospitals\Edit.cshtml
 --file=D:\Fresenius\Fresenius\Views\Hospitals\Index.cshtml
+--file=D:\Fresenius\Fresenius\Views\InvoiceNums\AddSparepart.cshtml
+--file=D:\Fresenius\Fresenius\Views\InvoiceNums\Create.cshtml
+--file=D:\Fresenius\Fresenius\Views\InvoiceNums\Delete.cshtml
+--file=D:\Fresenius\Fresenius\Views\InvoiceNums\Details.cshtml
+--file=D:\Fresenius\Fresenius\Views\InvoiceNums\Edit.cshtml
+--file=D:\Fresenius\Fresenius\Views\InvoiceNums\Index.cshtml
 --file=D:\Fresenius\Fresenius\Views\Invoices\About.cshtml
 --file=D:\Fresenius\Fresenius\Views\Invoices\Create.cshtml
 --file=D:\Fresenius\Fresenius\Views\Invoices\Delete.cshtml

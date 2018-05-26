@@ -50,6 +50,7 @@ namespace Fresenius.Data
         }
 
         public ICollection<InvoiceSparepart>    InvoiceSpareparts { get; set; }
+        public ICollection<InvoiceSparepartNum> InvoiceSparepartNums { get; set; }
 
 
 

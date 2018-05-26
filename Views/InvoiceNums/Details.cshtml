@@ -1,0 +1,113 @@
+﻿@model Fresenius.Data.InvoiceNum
+
+
+<h1 style="color: rebeccapurple;">InvoiceNum</h1>
+
+<hr /><div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
+                <h3>ИНВОЙС</h3>
+                <h4>
+                    No.: <strong> @Html.DisplayFor(model => model.Num)</strong>
+                    / от даты
+                    <strong>@Html.DisplayFor(model => model.Date)</strong>
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4> @Html.DisplayFor(model => model.Sender) </h4>
+                <h4> @Html.DisplayFor(model => model.Recipient)</h4>
+            </div>
+            <div class="col-sm-6">
+            </div>
+        </div>
+    </div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<form asp-action="DetailsPdf" asp-controller="InvoiceNums" asp-route-id="@Model.Id" method="get" id="select">
+    <input name="column" type="checkbox" value="1" checked="checked" /> Номер
+    <input name="column" type="checkbox" value="2" checked="checked" /> Наименование анг
+    <input name="column" type="checkbox" value="3" checked="checked" /> Наименование
+    <input name="column" type="checkbox" value="4" checked="checked" /> Описание
+    <input name="column" type="checkbox" value="5" checked="checked" /> Фото
+    <input name="column" type="checkbox" value="6" /> Страна
+    <input name="column" type="checkbox" value="7" /> оборудование
+    <input name="column" type="checkbox" value="8" /> Код
+    <input name="column" type="checkbox" value="9" /> Описание
+    <input name="column" type="checkbox" value="10" checked="checked" /> Рег.Номер
+    <input name="column" type="checkbox" value="11" checked="checked" /> Дата
+    <input name="column" type="checkbox" value="12" /> Фото
+    <input name="column" type="checkbox" value="13" /> Изготовитель
+    <input name="column" type="checkbox" value="14" /> Наименование
+    <input name="column" type="checkbox" value="15" /> Код
+    <input name="column" type="checkbox" value="16" /> Адрес
+    <input name="column" type="checkbox" value="17" /> Лого
+
+    <div class="form-group">
+        <input type="submit" value="Печать" class="btn btn-default" />
+    </div>
+
+</form>
+<table class="table display" id="table">
+
+
+    <tbody>
+
+        @foreach (var item in ViewBag.listSparepartsInInvoice)
+        {
+            <tr>
+                <td>
+
+                    @item.Number
+
+                </td>
+                <td>
+                    @item.NameEn
+                </td>
+                <td>
+                    @item.NameRus
+                </td>
+                <td>
+                    @item.Description
+                </td>
+                <td style="width: 100px;">
+                    <img src="@item.Image" asp-append-version="true" class="img-thumbnail" alt="@item.Image" />
+                </td>
+                <td>
+                    @item.Country.Nam
+                </td>
+                <td>
+                    @item.Equipment.Name
+                </td>
+                <td>
+                    @item.Equipment.Code
+                </td>
+                <td>@item.Equipment.Description</td>
+                <td>@item.Equipment.RegNumber</td>
+                <td>@item.Equipment.Ps</td>
+                <td style="width: 100px;">
+                    <img src="@item.Equipment.Image" asp-append-version="true" class="img-thumbnail" alt="@item.Equipment.Image" />
+                </td>
+                <td>
+                    @item.Manufacturer.NameFull
+                </td>
+                <td>@item.Manufacturer.NameShort</td>
+                <td>@item.Manufacturer.Code</td>
+                <td>@item.Manufacturer.AdressOfDeparture</td>
+                <td style="width: 50px;">
+                    <img src="@item.Manufacturer.Logo" asp-append-version="true" class="img-thumbnail" alt="@item.Manufacturer.Logo" />
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+

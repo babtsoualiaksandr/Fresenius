@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Fresenius.Data.Sparepart>
+
+<form asp-action="AddSparepart">
+    <div class="form-group">        
+        <button type="button" class="btn btn-success">Изменить</button>
+    </div>
+    <table class="table display" id="IndexTableInvoice">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NameEn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NameRus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Image)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mark)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Country)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Equipment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Manufacturer)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameEn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameRus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Image)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mark)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Equipment.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Manufacturer.Id)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                    <td>
+
+                        <div class="form-group">
+                            <input type="text" size="15" class="form-control" id="numSparepart" placeholder="0000">
+                        </div>
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-group">
+        <input type="submit" value="Изменить" class="btn btn-success" />
+    </div>
+</form>

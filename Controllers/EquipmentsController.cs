@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using AngleSharp;
 using Microsoft.AspNetCore.Authorization;
+using System.Globalization;
+using Fresenius.ViewsModel;
 
 namespace Fresenius.Controllers
 {
@@ -54,8 +56,8 @@ namespace Fresenius.Controllers
                 identityCard = new IdentityCard
                 {
                     Number = title[0],
-                    DateOfRegistration = DateTime.Parse(title[1]),
-                    Expiration = DateTime.Parse(title[2]),
+                    DateOfRegistration = ParseDate(title[1]),
+                    Expiration = ParseDate(title[2]),
                     Applicant = title[3],
                     Purpose = title[4]
                 };
@@ -74,13 +76,62 @@ namespace Fresenius.Controllers
             return identityCard;
         }
 
+        public static  DateTime ParseDate(string dateString)
+        {
+
+            CultureInfo culture;
+            DateTimeStyles styles;
+            // Parse a date and time with no styles.
+
+            culture = CultureInfo.CreateSpecificCulture("ru-RU");
+            styles = DateTimeStyles.None;
+            try
+            {
+                return DateTime.Parse(dateString, culture, styles);
+
+            }
+            catch (FormatException)
+            {
+                return DateTime.Now;
+            }
+        }
+
 
 
 
         // GET: Equipments
         public async Task<IActionResult> Index()
-        {
+        {                
+                                                                            
             return View(await _context.Equipments.ToListAsync());
+        }
+
+        // GET: Equipments
+        public async Task<IActionResult> IndexAndReestr()
+        {
+            IdentityCard IdentityCardofReestr = new IdentityCard();
+            List<VieweModelForEquipmentsIC> listvieweModelForEquipmentsIC = new List<VieweModelForEquipmentsIC>();
+            foreach (var item in  _context.Equipments.ToList())
+            {
+                IdentityCardofReestr = await GetDatarcethby(item.RegNumber);
+                VieweModelForEquipmentsIC vieweModelForEquipmentsIC = new VieweModelForEquipmentsIC
+                {
+                    Id = item.Id,
+                    Code = item.Code,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Image = item.Image,
+                    RegNumber = item.RegNumber,
+                    Ps = item.Ps,
+                    Number = IdentityCardofReestr.Number,
+                    DateOfRegistration = IdentityCardofReestr.DateOfRegistration,
+                    Expiration = IdentityCardofReestr.Expiration,
+                    Applicant = IdentityCardofReestr.Applicant,
+                    Purpose = IdentityCardofReestr.Purpose
+                };
+                listvieweModelForEquipmentsIC.Add(vieweModelForEquipmentsIC);
+            }
+            return View(listvieweModelForEquipmentsIC);
         }
 
         // GET: Equipments/Details/5

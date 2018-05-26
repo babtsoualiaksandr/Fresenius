@@ -15,8 +15,10 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link href="~/DataTable/datatables.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -39,10 +41,11 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Работа<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a asp-area="" asp-controller="Invoices" asp-action="Index">Инвойс</a></li>
-                            @*<li><a asp-area="" asp-controller="Spareparts" asp-action="IndexToMaskForInvoice">Формировать Инвойс</a></li>*@
+                            <li><a asp-area="" asp-controller="InvoiceNums" asp-action="Index">Инвойс _ </a></li>
                             <li><a asp-area="" asp-controller="Spareparts" asp-action="Index">Запчасти</a></li>
                             <li><a asp-area="" asp-controller="Manufacturers" asp-action="Index">Производители</a></li>
                             <li><a asp-area="" asp-controller="Equipments" asp-action="Index">Оборудование</a></li>
+                            <li><a asp-area="" asp-controller="Equipments" asp-action="IndexAndReestr">Оборудование и Реестр</a></li>
                             <li><a asp-area="" asp-controller="Countries" asp-action="Index">Страны</a></li>
                         </ul>
                     </li>
@@ -90,6 +93,7 @@
                 crossorigin="anonymous"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
+
         <script src="~/DataTable/datatables.min.js"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>

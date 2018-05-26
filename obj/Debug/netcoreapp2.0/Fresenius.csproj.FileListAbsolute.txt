@@ -15,10 +15,10 @@ D:\Fresenius\Fresenius\bin\Debug\netcoreapp2.0\Fresenius.runtimeconfig.json
 D:\Fresenius\Fresenius\bin\Debug\netcoreapp2.0\Fresenius.runtimeconfig.dev.json
 D:\Fresenius\Fresenius\bin\Debug\netcoreapp2.0\Fresenius.dll
 D:\Fresenius\Fresenius\bin\Debug\netcoreapp2.0\Fresenius.pdb
-D:\Fresenius\Fresenius\obj\Debug\netcoreapp2.0\Fresenius.csprojResolveAssemblyReference.cache
 D:\Fresenius\Fresenius\obj\Debug\netcoreapp2.0\Fresenius.csproj.CoreCompileInputs.cache
 D:\Fresenius\Fresenius\obj\Debug\netcoreapp2.0\Fresenius.AssemblyInfoInputs.cache
 D:\Fresenius\Fresenius\obj\Debug\netcoreapp2.0\Fresenius.AssemblyInfo.cs
 D:\Fresenius\Fresenius\obj\Debug\netcoreapp2.0\Fresenius.dll
 D:\Fresenius\Fresenius\obj\Debug\netcoreapp2.0\Fresenius.pdb
 D:\Fresenius\Fresenius\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+D:\Fresenius\Fresenius\obj\Debug\netcoreapp2.0\Fresenius.csprojAssemblyReference.cache

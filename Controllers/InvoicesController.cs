@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Fresenius.Data;
-
-
+using Fresenius.Data; 
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Fresenius.Reports;
+using System.Globalization;
 
 namespace Fresenius.Controllers
 {
@@ -131,16 +130,9 @@ namespace Fresenius.Controllers
                 try
                 {
                     _context.Update(invoice);
-
-                    // 
                     List<InvoiceSparepart> listForDell = _context.InvoiceSpareparts.Where(i => i.InvoiceId == id).ToList();
-                    _context.InvoiceSpareparts.RemoveRange(listForDell);
-
-
-
-
-                    await _context.SaveChangesAsync();
-
+                    _context.InvoiceSpareparts.RemoveRange(listForDell);   
+                    await _context.SaveChangesAsync();   
                     foreach (var item in markSparepartsInInvoice)
                     {
                         InvoiceSparepart invoiceSparepart = new InvoiceSparepart { InvoiceId = id, SparepartId = Int32.Parse(item) };
@@ -287,6 +279,8 @@ namespace Fresenius.Controllers
             PdfWriter.GetInstance(pdfDoc, ms);
             var tahomaFont = MyPDF.GetUnicodeFont("Tahoma", MyPDF.GetTahomaFontPath(), 11, Font.NORMAL, BaseColor.Black);
             var tahomaFontBold = MyPDF.GetUnicodeFont("Tahoma", MyPDF.GetTahomaFontPath(), 13, Font.BOLD, BaseColor.Black);
+            var tahomaFontRed = MyPDF.GetUnicodeFont("Tahoma", MyPDF.GetTahomaFontPath(), 13, Font.BOLD, BaseColor.Red);
+
             pdfDoc.AddAuthor("FreseBel and K"); 
             pdfDoc.Header = new HeaderFooter(new Phrase("Invoice: "+invoice.Num ), false);
             pdfDoc.Open();  
@@ -335,8 +329,16 @@ namespace Fresenius.Controllers
             string[] nameImg;
 
             int iter = 0;
+            DateTime dateTimenow = new DateTime();
+            dateTimenow = DateTime.Now;
             foreach (var item in listSparepartsInInvoice)
             {
+                var tahomaBold= tahomaFontBold;
+                DateTime date = new DateTime();
+                date = ParseDate(item.Equipment.Ps);
+                if (dateTimenow > date) tahomaBold = tahomaFontRed;
+                else
+                    tahomaBold = tahomaFontBold;
                 table = new PdfPTable(2)
                 {   
                       KeepTogether = true  
@@ -350,14 +352,14 @@ namespace Fresenius.Controllers
                 //p = new Paragraph("" + item.Description, tahomaFont); pdfDoc.Add(p);
                 //p = new Paragraph("" + item.Manufacturer, tahomaFont); pdfDoc.Add(p);  
                   
-                pdfCell = new PdfPCell(new Phrase("", tahomaFontBold))
+                pdfCell = new PdfPCell(new Phrase("", tahomaBold))
                 {
                     Border = 0,
                     Colspan = 2   
                 };   
                 table.AddCell(pdfCell);
 
-                pdfCell = new PdfPCell(new Phrase("", tahomaFontBold))
+                pdfCell = new PdfPCell(new Phrase("", tahomaBold))
                 {
                     Border = 0,
                     Colspan = 2
@@ -366,7 +368,8 @@ namespace Fresenius.Controllers
 
                 
                 st =  item.Number + " " + item.NameEn + " / " + item.NameRus + "/" + item.Country.Nam;
-                pdfCell = new PdfPCell(new Phrase(st, tahomaFontBold))
+                
+                pdfCell = new PdfPCell(new Phrase(st, tahomaBold))
                 {
                     Border = 0,
                     Colspan = 2     
@@ -510,6 +513,26 @@ namespace Fresenius.Controllers
             string file_type = "application/pdf";
             string file_name = "Invoice" + invoice.Num + invoice.Date + ".pdf";
             return File(pdfBytes, file_type, file_name);  
-        }                                         
+        }  
+
+        private  DateTime ParseDate(string dateString)
+        {
+            
+            CultureInfo culture;
+            DateTimeStyles styles;   
+            // Parse a date and time with no styles.
+            
+            culture = CultureInfo.CreateSpecificCulture("en-US");
+            styles = DateTimeStyles.None;
+            try
+            {
+                return DateTime.Parse(dateString, culture, styles);
+                
+            }
+            catch (FormatException)
+            {
+                return DateTime.Now;                      
+            }             
+        }     
     }
 }

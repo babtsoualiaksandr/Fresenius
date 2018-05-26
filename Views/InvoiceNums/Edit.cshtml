@@ -1,0 +1,143 @@
+﻿@model Fresenius.Data.InvoiceNum
+
+
+<h2>Изменить</h2>
+<h4>Упорядоченный инвойс</h4>
+<hr />
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Num" class="control-label"></label>
+                <input asp-for="Num" class="form-control" />
+                <span asp-validation-for="Num" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sender" class="control-label"></label>
+                <textarea asp-for="Sender" class="form-control" rows="3" ></textarea>
+                <span asp-validation-for="Sender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipient" class="control-label"></label>
+                <textarea asp-for="Recipient" class="form-control" rows="3" ></textarea>
+                <span asp-validation-for="Recipient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+
+
+            <table class="table display" id="IndexTableInvoice">
+                <thead>
+                    <tr>
+                        <th>Номер</th>
+                        <th>
+                            Номер
+                        </th>
+                        <th>
+                            Наименование ENG
+                        </th>
+                        <th>
+                            Наименование RUS
+                        </th>
+                        <th>
+                            Описание
+                        </th>
+                        <th>
+                            Фото
+                        </th>
+                        <th>
+                            Страна
+                        </th>
+                        <th>
+                            Оборудование
+                        </th>
+                        <th>
+                            Изготовитель
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Spareparts)
+                    {
+                        <tr>
+                            <td>
+                                @{if (ViewBag.SparapartsInVoiceNum.ContainsKey(@item.Id) == true)
+                                    {
+                                        <input type="checkbox" checked="checked" name="markSparepartsInInvoice" class="markSparepartsInInvoice" value="@item.Id|@ViewBag.SparapartsInVoiceNum[@item.Id]" id ="@item.Id" />
+                                        <div class="form-group">
+                                            <input type="text" size="15" class="form-control numMarkSparepart" name="numSparepart" value="@ViewBag.SparapartsInVoiceNum[@item.Id]" id="@item.Id">
+                                            
+                                            
+                                        </div>
+                                    }
+                                    else
+                                    { <input type="checkbox" name="markSparepartsInInvoice" class="markSparepartsInInvoice" id="@item.Id" />
+
+                                        <div class="form-group">
+                                            <input type="text" size="15" class="form-control numMarkSparepart" name="numSparepart" placeholder="0000" id="@item.Id">
+                                        </div>
+                                    }
+                                }
+
+
+                            </td>
+                            <td>
+                                @item.Number
+                            </td>
+                            <td>
+                                @item.NameEn
+                            </td>
+                            <td>
+                                @item.NameRus
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id">
+                                    <img src="@item.Image" asp-append-version="true" class="img-thumbnail" alt="@item.Image" />
+                                </a>
+                            </td>
+                            <td>
+                                @item.Country.Nam
+                            </td>
+                            <td>
+                                @item.Equipment.Name
+                            </td>
+                            <td>
+                                @item.Manufacturer.NameFull
+                            </td>
+                            <td>
+                                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </form>
+
+
+
+      
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

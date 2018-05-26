@@ -6,6 +6,11 @@
     <ApplicationIcon></ApplicationIcon>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20180523093615_add_Num_edit.cs" />
+    <Compile Remove="Data\Migrations\20180523093615_add_Num_edit.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.9.9.2" />

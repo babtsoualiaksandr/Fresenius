@@ -108,6 +108,24 @@ namespace Fresenius.Data.Migrations
                     b.ToTable("Invoice");
                 });
 
+            modelBuilder.Entity("Fresenius.Data.InvoiceNum", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Date");
+
+                    b.Property<string>("Num");
+
+                    b.Property<string>("Recipient");
+
+                    b.Property<string>("Sender");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InvoiceNum");
+                });
+
             modelBuilder.Entity("Fresenius.Data.InvoiceSparepart", b =>
                 {
                     b.Property<int>("Id")
@@ -124,6 +142,26 @@ namespace Fresenius.Data.Migrations
                     b.HasIndex("SparepartId");
 
                     b.ToTable("InvoiceSparepart");
+                });
+
+            modelBuilder.Entity("Fresenius.Data.InvoiceSparepartNum", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("InvoiceNumId");
+
+                    b.Property<string>("Num");
+
+                    b.Property<int>("SparepartId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceNumId");
+
+                    b.HasIndex("SparepartId");
+
+                    b.ToTable("InvoiceSparepartNums");
                 });
 
             modelBuilder.Entity("Fresenius.Data.Manufacturer", b =>
@@ -229,6 +267,38 @@ namespace Fresenius.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Fresenius.ViewsModel.VieweModelForEquipmentsIC", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Applicant");
+
+                    b.Property<string>("Code");
+
+                    b.Property<DateTime>("DateOfRegistration");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("Expiration");
+
+                    b.Property<string>("Image");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Number");
+
+                    b.Property<string>("Ps");
+
+                    b.Property<string>("Purpose");
+
+                    b.Property<string>("RegNumber");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VieweModelForEquipmentsIC");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -348,6 +418,19 @@ namespace Fresenius.Data.Migrations
 
                     b.HasOne("Fresenius.Data.Sparepart", "Sparepart")
                         .WithMany("InvoiceSpareparts")
+                        .HasForeignKey("SparepartId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Fresenius.Data.InvoiceSparepartNum", b =>
+                {
+                    b.HasOne("Fresenius.Data.InvoiceNum", "InvoiceNum")
+                        .WithMany("InvoiceSparepartNums")
+                        .HasForeignKey("InvoiceNumId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Fresenius.Data.Sparepart", "Sparepart")
+                        .WithMany()
                         .HasForeignKey("SparepartId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
